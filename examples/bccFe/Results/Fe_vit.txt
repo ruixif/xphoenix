@@ -1,0 +1,289 @@
+
+  Fit range  2.7 to  7.8 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  18
+
+      Chi^2  quality     p1        p2        p3...
+       0.00           3.51D+03  1.00D+00  4.00D+00
+     610.99  0.0D+00  3.51D+03  1.00D+00  4.00D+00
+     580.96 -5.1D-02  3.53D+03  1.00D+00  4.00D+00
+     285.78 -7.5D-01  3.78D+03  1.06D+00  4.00D+00
+     260.85 -9.2D-02  3.80D+03  1.07D+00  4.00D+00
+     130.82 -7.0D-01  3.94D+03  1.13D+00  4.00D+00
+     112.17 -1.5D-01  3.97D+03  1.14D+00  4.00D+00
+      61.58 -5.5D-01  4.02D+03  1.20D+00  4.00D+00
+      49.72 -2.0D-01  4.03D+03  1.23D+00  4.00D+00
+      30.55 -4.4D-01  4.00D+03  1.30D+00  4.00D+00
+      23.11 -2.7D-01  3.97D+03  1.35D+00  4.00D+00
+      13.60 -5.3D-01  3.88D+03  1.44D+00  4.00D+00
+       8.84 -4.3D-01  3.82D+03  1.52D+00  4.00D+00
+       4.39 -7.1D-01  3.73D+03  1.65D+00  4.00D+00
+       2.17 -7.0D-01  3.67D+03  1.80D+00  4.00D+00
+       0.88 -7.6D-01  3.61D+03  2.02D+00  4.00D+00
+       0.41 -4.4D-01  3.58D+03  2.31D+00  4.00D+00
+       0.28 -1.3D-01  3.56D+03  2.65D+00  4.00D+00
+       0.25 -3.5D-02  3.55D+03  2.93D+00  4.00D+00
+       0.25 -1.8D-03  3.55D+03  3.05D+00  4.00D+00
+       0.25 -3.0D-06  3.55D+03  3.07D+00  4.00D+00
+    +- 0.12           2.58D+01  1.02D+00  0.00D+00
+
+  Fit range  2.7 to  8.4 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  20
+
+      Chi^2  quality     p1        p2        p3...
+       0.25           3.55D+03  3.07D+00  4.00D+00
+       0.22  0.0D+00  3.55D+03  3.07D+00  4.00D+00
+       0.22 -2.8D-03  3.55D+03  3.20D+00  4.00D+00
+       0.22 -1.5D-05  3.55D+03  3.23D+00  4.00D+00
+    +- 0.11           2.39D+01  9.10D-01  0.00D+00
+
+  Fit range  2.7 to  9.3 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  23
+
+      Chi^2  quality     p1        p2        p3...
+       0.22           3.55D+03  3.23D+00  4.00D+00
+       0.59  0.0D+00  3.55D+03  3.23D+00  4.00D+00
+       0.59  5.5D-02  3.54D+03  3.44D+00  4.00D+00
+       0.55 -3.4D-02  3.53D+03  3.71D+00  4.00D+00
+       0.50 -8.7D-02  3.53D+03  4.04D+00  4.00D+00
+       0.46 -6.1D-02  3.53D+03  4.46D+00  4.00D+00
+       0.43 -4.0D-02  3.53D+03  5.04D+00  4.00D+00
+       0.41 -2.5D-02  3.53D+03  5.97D+00  4.00D+00
+       0.40 -1.2D-02  3.53D+03  7.83D+00  4.00D+00
+       0.40 -1.7D-03  3.53D+03  1.44D+01  4.00D+00
+       0.40  4.0D-05  3.53D+03  3.15D+01  4.00D+00
+    +- 0.14           2.18D+01  1.05D+03  0.00D+00
+
+  Fit range  2.7 to 10.2 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  26
+
+      Chi^2  quality     p1        p2        p3...
+       0.40           3.53D+03  3.15D+01  4.00D+00
+       0.37  0.0D+00  3.53D+03  3.15D+01  4.00D+00
+       0.37  3.3D-02  3.54D+03  2.52D+01  4.00D+00
+       0.37  4.3D-03  3.54D+03  2.02D+01  4.00D+00
+       0.37 -4.6D-04  3.54D+03  1.61D+01  4.00D+00
+    +- 0.12           1.99D+01  3.58D+03  0.00D+00
+
+  Fit range  2.7 to 10.8 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  28
+
+      Chi^2  quality     p1        p2        p3...
+       0.37           3.54D+03  1.61D+01  4.00D+00
+       0.56  0.0D+00  3.54D+03  1.61D+01  4.00D+00
+       0.60  7.9D-02  3.55D+03  1.29D+01  4.00D+00
+       0.62  3.4D-02  3.55D+03  1.03D+01  4.00D+00
+       0.61 -2.7D-02  3.55D+03  8.26D+00  4.00D+00
+       0.59 -6.6D-02  3.55D+03  6.61D+00  4.00D+00
+       0.54 -1.5D-01  3.55D+03  5.28D+00  4.00D+00
+       0.47 -1.7D-01  3.55D+03  4.46D+00  4.00D+00
+       0.45 -5.3D-02  3.55D+03  4.21D+00  4.00D+00
+       0.43  2.6D-01  3.55D+03  3.50D+00  4.00D+00
+       0.41 -6.0D-03  3.55D+03  3.67D+00  4.00D+00
+       0.41 -1.6D-05  3.55D+03  3.70D+00  4.00D+00
+    +- 0.13           1.88D+01  5.34D-01  0.00D+00
+
+  Fit range  2.7 to 11.7 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  31
+
+      Chi^2  quality     p1        p2        p3...
+       0.41           3.55D+03  3.70D+00  4.00D+00
+       0.39  0.0D+00  3.55D+03  3.70D+00  4.00D+00
+       0.38 -9.3D-04  3.55D+03  3.77D+00  4.00D+00
+    +- 0.11           1.76D+01  3.80D-01  0.00D+00
+
+  Fit range  2.7 to 12.6 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  34
+
+      Chi^2  quality     p1        p2        p3...
+       0.38           3.55D+03  3.77D+00  4.00D+00
+       0.52  0.0D+00  3.55D+03  3.77D+00  4.00D+00
+       0.48 -3.3D-02  3.55D+03  4.08D+00  4.00D+00
+       0.47 -1.4D-03  3.54D+03  4.22D+00  4.00D+00
+       0.47 -1.9D-06  3.54D+03  4.24D+00  4.00D+00
+    +- 0.12           1.66D+01  5.29D-01  0.00D+00
+
+  Fit range  2.7 to 13.2 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  36
+
+      Chi^2  quality     p1        p2        p3...
+       0.47           3.54D+03  4.24D+00  4.00D+00
+       0.47  0.0D+00  3.54D+03  4.24D+00  4.00D+00
+       0.46 -4.7D-04  3.54D+03  4.31D+00  4.00D+00
+    +- 0.12           1.60D+01  4.29D-01  0.00D+00
+
+  Fit range  2.7 to 14.1 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  39
+
+      Chi^2  quality     p1        p2        p3...
+       0.46           3.54D+03  4.31D+00  4.00D+00
+       0.48  0.0D+00  3.54D+03  4.31D+00  4.00D+00
+       0.46  1.6D-02  3.55D+03  4.05D+00  4.00D+00
+       0.46 -8.0D-06  3.55D+03  4.06D+00  4.00D+00
+    +- 0.11           1.51D+01  2.46D-01  0.00D+00
+
+  Fit range  2.7 to 15.0 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  42
+
+      Chi^2  quality     p1        p2        p3...
+       0.46           3.55D+03  4.06D+00  4.00D+00
+       0.46  0.0D+00  3.55D+03  4.06D+00  4.00D+00
+       0.46 -5.7D-04  3.55D+03  3.99D+00  4.00D+00
+    +- 0.11           1.43D+01  1.81D-01  0.00D+00
+
+  Fit range  2.7 to 15.6 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  44
+
+      Chi^2  quality     p1        p2        p3...
+       0.46           3.55D+03  3.99D+00  4.00D+00
+       0.45  0.0D+00  3.55D+03  3.99D+00  4.00D+00
+       0.45 -7.4D-04  3.55D+03  4.02D+00  4.00D+00
+    +- 0.10           1.39D+01  1.36D-01  0.00D+00
+
+  Fit range  2.7 to 16.4 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  47
+
+      Chi^2  quality     p1        p2        p3...
+       0.45           3.55D+03  4.02D+00  4.00D+00
+       0.43  0.0D+00  3.55D+03  4.02D+00  4.00D+00
+       0.42 -2.3D-04  3.55D+03  4.00D+00  4.00D+00
+    +- 0.10           1.32D+01  1.06D-01  0.00D+00
+
+  Fit range  2.7 to 17.0 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  49
+
+      Chi^2  quality     p1        p2        p3...
+       0.42           3.55D+03  4.00D+00  4.00D+00
+       0.41  0.0D+00  3.55D+03  4.00D+00  4.00D+00
+       0.41 -3.6D-07  3.55D+03  4.00D+00  4.00D+00
+    +- 0.09           1.28D+01  8.63D-02  0.00D+00
+
+  Fit range  2.7 to 17.9 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  52
+
+      Chi^2  quality     p1        p2        p3...
+       0.41           3.55D+03  4.00D+00  4.00D+00
+       0.41  0.0D+00  3.55D+03  4.00D+00  4.00D+00
+       0.41 -2.2D-04  3.55D+03  3.99D+00  4.00D+00
+    +- 0.09           1.22D+01  6.54D-02  0.00D+00
+
+  Fit range  2.7 to 18.8 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  55
+
+      Chi^2  quality     p1        p2        p3...
+       0.41           3.55D+03  3.99D+00  4.00D+00
+       0.42  0.0D+00  3.55D+03  3.99D+00  4.00D+00
+       0.41 -4.3D-04  3.55D+03  3.98D+00  4.00D+00
+    +- 0.09           1.17D+01  4.96D-02  0.00D+00
+
+  Fit range  2.7 to 19.4 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  57
+
+      Chi^2  quality     p1        p2        p3...
+       0.41           3.55D+03  3.98D+00  4.00D+00
+       0.93  0.0D+00  3.55D+03  3.98D+00  4.00D+00
+       0.72 -3.3D-02  3.56D+03  3.88D+00  4.00D+00
+       0.72 -8.4D-04  3.56D+03  3.87D+00  4.00D+00
+    +- 0.11           1.13D+01  3.52D-02  0.00D+00
+
+  Fit range  2.7 to 20.3 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  60
+
+      Chi^2  quality     p1        p2        p3...
+       0.72           3.56D+03  3.87D+00  4.00D+00
+       0.89  0.0D+00  3.56D+03  3.87D+00  4.00D+00
+       0.81 -2.6D-02  3.56D+03  3.91D+00  4.00D+00
+       0.81 -2.6D-04  3.56D+03  3.92D+00  4.00D+00
+    +- 0.12           1.09D+01  2.87D-02  0.00D+00
+
+  Fit range  2.7 to 21.2 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  63
+
+      Chi^2  quality     p1        p2        p3...
+       0.81           3.56D+03  3.92D+00  4.00D+00
+       1.36  0.0D+00  3.56D+03  3.92D+00  4.00D+00
+       1.15 -5.9D-02  3.55D+03  3.98D+00  4.00D+00
+       1.14 -2.2D-03  3.54D+03  4.00D+00  4.00D+00
+       1.14 -1.6D-06  3.54D+03  4.00D+00  4.00D+00
+    +- 0.14           1.12D+01  2.72D-02  0.00D+00
+
+  Fit range  2.7 to 21.8 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  65
+
+      Chi^2  quality     p1        p2        p3...
+       1.14           3.54D+03  4.00D+00  4.00D+00
+       1.99  0.0D+00  3.54D+03  4.00D+00  4.00D+00
+       1.76 -5.0D-02  3.54D+03  4.05D+00  4.00D+00
+       1.73 -3.0D-03  3.53D+03  4.08D+00  4.00D+00
+       1.73 -4.4D-06  3.53D+03  4.08D+00  4.00D+00
+    +- 0.17           1.34D+01  3.22D-02  0.00D+00
+
+  Fit range  2.7 to 22.7 meV -->
+   Type of fit function        :   0
+   Number of parameters        :   3
+   Number of fit parameters    :   2
+   Number of valid data points :  68
+
+      Chi^2  quality     p1        p2        p3...
+       1.73           3.53D+03  4.08D+00  4.00D+00
+       4.14  0.0D+00  3.53D+03  4.08D+00  4.00D+00
+       3.41 -1.0D-01  3.53D+03  4.15D+00  4.00D+00
+       3.23 -2.2D-02  3.51D+03  4.21D+00  4.00D+00
+       3.21 -5.9D-04  3.50D+03  4.23D+00  4.00D+00
+    +- 0.22           1.76D+01  4.25D-02  0.00D+00

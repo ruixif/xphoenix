@@ -1,0 +1,196 @@
+#!/bin/csh -f
+#
+##############################################################
+#
+#  PHOENIX Version 2.1.4
+#  Copyright (C) 2016 Wolfgang Sturhahn.
+#
+#  This file is part of PHOENIX-2.1.4.
+#
+#  PHOENIX-2.1.4 is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  PHOENIX-2.1.4 is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-2.1.4.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################
+#
+#  purpose :  execute padd multiple times
+#  author  :  W.Sturhahn
+#  created :  @date:
+#
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7->
+#
+#:  settings
+
+set in_file = in_padd
+set version = 2.1.4
+
+set CAT      = @cat:
+set DIRNAME  = @dirname:
+set GREP     = @grep:
+set MKDIR    = @mkdir:
+set RM       = @rm:
+set SED      = @sed:
+
+
+#
+#:  name of executable
+
+set exe_dir    = `$DIRNAME $0`
+set exe_dir    = `cd $exe_dir && pwd`
+set executable = $exe_dir/padd
+
+
+#
+#:  no arguments
+#
+
+if ($#argv == 0) then
+  $CAT <<EOF
+mpadd: no arguments given
+Try 'mpadd --help' for more information.
+EOF
+endif
+
+
+#
+#: check if support programs are available
+
+if($GREP  == ":") then
+  echo "grep not found -- cannot start mpadd ..."
+  exit 1
+endif
+
+
+#
+#:  handle options
+
+unset graphics
+set paddoptions
+set detectors = ($argv)
+foreach option ($argv)
+
+  if("$option" !~ --*) then
+    continue
+  endif
+
+  switch ($option)
+    case --help:
+     $CAT <<EOF
+Usage: mpadd [OPTION] DET1:COL1 DET2:COL2 ..
+Execute 'padd' several times using specified detector assignments
+
+      --graphics       provide graphics support
+      --help           display this help and exit
+      --infile=<file>  use <file> as input file for padd
+                       instead of 'in_padd'
+      --pipe=<fifo>    use <fifo> as pipe to output graphics data
+      --vdelay=<val>   set visualization startup delay to <val>
+      --version        display version number and exit
+      --vtool=<exe>    use <exe> for data visualization
+
+Examples:
+  mpadd --infile=myPadd A:5 B:6     use input file 'myPadd' and run 'padd'
+                                     for data columns 5 and 6 associated
+                                     with detectors A and B, respectively
+  mpadd --graphics --vtool=xmgrace  request graphics support using
+                                     'xmgrace' as visualization tool
+
+EOF
+      exit 0
+    breaksw
+
+    case --graphics:
+      set graphics
+      shift detectors
+    breaksw
+
+    case --infile=*:
+      set in_file = `echo $option | $SED 's/--infile=//'`
+      shift detectors
+    breaksw
+
+    case --pipe=*:
+      set paddoptions = ($paddoptions $option)
+      shift detectors
+    breaksw
+
+    case --vdelay=*:
+      set paddoptions = ($paddoptions $option)
+      shift detectors
+    breaksw
+
+    case --version:
+      echo "PHOENIX version:"  $version
+      exit 0
+    breaksw
+
+    case --vtool=*:
+      set paddoptions = ($paddoptions $option)
+      shift detectors
+    breaksw
+
+    default:
+     $CAT <<EOF
+mpadd: no arguments given
+Try 'mpadd --help' for more information.
+EOF
+      exit 1
+    breaksw
+  endsw
+end
+
+
+#
+#:  input file
+#
+
+if (! -f $in_file) then
+  echo "file '"$in_file"' not found ..."
+  exit 1
+endif
+
+
+if(! $?graphics) then
+  set paddoptions = ($paddoptions --nographics)
+endif
+
+
+#
+#:  column assignment from arguments
+#:  execute padd
+
+echo " "
+set dirname = 'Detector'
+umask 022
+foreach pair ( $detectors )
+
+  set detcol = (`echo $pair | $SED 's/:/ /g'`)
+  set detector = $detcol[1]
+  set column   = $detcol[2]
+
+  echo " -- execute 'padd': detector $detector associated with column $column .."
+  set name = "Detector${detector}_Column$column"
+  $MKDIR -p $name
+
+  if (-d $name) then
+    set flist = `ls $name`
+    if("$flist" != "")  $RM -f $name/*
+    $SED -e 's/@[dDaA]:/'"$column"/g -e 's/@[nN]:/'"$detector"/g < $in_file >! $name/in_padd
+    cd $name
+    $executable $paddoptions >&! /dev/null
+    mv -f *_sum.* ..
+    cd ..
+  endif
+
+end
+echo " "

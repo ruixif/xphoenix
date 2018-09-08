@@ -1,0 +1,41 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module psth - version @1:
+
+
+ Processing data from file "Fe_theory.dos" -->
+
+   Nuclear transition energy   :   14.412 keV
+   Recoil energy of free atom  :    1.956 meV
+   Temperature                 :  300.00 K
+   Energy range in output      :  -80.00 ->   80.00 meV
+   Number of energy points     :  801
+
+   Resolution function and elastic peak ->
+     Function type               : Gaussian-like
+     Full width at half maximum  :  1.00 meV
+     Shape coefficient           :  1.70
+     Left/right asymmetry        :  1.00
+     Elastic peak strength       :  0.20
+
+   Quantities calculated with the partial DOS ->
+     Lamb-Moessbauer factor      :    0.7946 +-   0.0001
+     kinetic energy              :   14.1263 +-   0.0076 meV/atom
+     mean force constant         :  166.4486 +-   0.1073 N/m
+     specific heat               :    2.7338 +-   0.0014 k_B/atom
+     entropy                     :    3.1737 +-   0.0016 k_B/atom
+     free energy                 :    2.7100 +-   0.0118 meV/atom
+     resilience                  :   33.8653 +-   0.0149 N/m
+     Lamb-Moessbauer temperature : 1379.3892 +-   0.6080 K
+     isotope fractionation       :    1.3928 +-   0.0088 perMille/%
+     high T isotope frac.        :    1.4249 +-   0.0009 perMille/%
+     rms displacement            :    6.5642 +-   0.0014 pm
+     instantaneous displacement  :    6.6818 +-   0.0249 pm

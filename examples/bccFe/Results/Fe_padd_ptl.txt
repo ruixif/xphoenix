@@ -1,0 +1,127 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module padd - version @1:
+
+
+  Input parameters -->
+    Operating energy             :   14.412 keV
+    Temperature of the material  :  300.00 K
+    Energy shift, output data    :    0.00 meV
+    Linear E-scale correction    :    0.00 0.1%
+    Quadratic E-scale correction :    0.00 1E-6/meV
+    Interpolation method         :  quadratic
+
+  Processing data, file "scan112.raw" -->
+   Number of data points            :   667
+   Constant data background         : 0.10
+   detector signal                  : col 10
+   1.crystal angle position         : col  3
+   1.crystal angle calibration      : col 11
+   2.crystal angle position         : col  2
+   2.crystal temperature correction : col 12
+   Monitor                          : col  5
+   Peak position                    : col 10
+
+   Fit of the elastic peak -->
+    shape function unprocessed from file
+      peak              :   1.00E+00
+      valid range (meV) :  -9.90 to  9.90
+    fit range (meV) :  -2.99 to  2.99  centered at -0.14
+              Chi^2    peak   FWHM   pos.  %bgr.  asm.
+    start:          6.34E-05  1.50 -0.140  2.682  1.00
+    final:     1.62 6.53E-05  0.99 -0.221  2.009  1.00
+    errors:    0.31 3.06E-06  0.04  0.018  0.400
+
+  Processing data, file "scan115.raw" -->
+   Number of data points            :   667
+   Constant data background         : 0.10
+   detector signal                  : col 10
+   1.crystal angle position         : col  3
+   1.crystal angle calibration      : col 11
+   2.crystal angle position         : col  2
+   2.crystal temperature correction : col 12
+   Monitor                          : col  5
+   Peak position                    : col 10
+
+   Fit of the elastic peak -->
+    shape function unprocessed from file
+      peak              :   1.00E+00
+      valid range (meV) :  -9.90 to  9.90
+    fit range (meV) :  -2.99 to  2.99  centered at -4.63
+              Chi^2    peak   FWHM   pos.  %bgr.  asm.
+    start:          6.26E-05  1.49 -4.630  3.032  1.00
+    final:     1.48 6.47E-05  0.92 -4.540  2.366  1.00
+    errors:    0.30 3.23E-06  0.04  0.017  0.414
+
+  Processing data, file "scan118.raw" -->
+   Number of data points            :   667
+   Constant data background         : 0.10
+   detector signal                  : col 10
+   1.crystal angle position         : col  3
+   1.crystal angle calibration      : col 11
+   2.crystal angle position         : col  2
+   2.crystal temperature correction : col 12
+   Monitor                          : col  5
+   Peak position                    : col 10
+
+   Fit of the elastic peak -->
+    shape function unprocessed from file
+      peak              :   1.00E+00
+      valid range (meV) :  -9.90 to  9.90
+    fit range (meV) :  -3.04 to  3.04  centered at  0.71
+              Chi^2    peak   FWHM   pos.  %bgr.  asm.
+    start:          4.05E-05  1.52  0.711  2.896  1.00
+    final:     1.20 4.10E-05  1.00  0.674  2.637  1.00
+    errors:    0.27 2.44E-06  0.05  0.022  0.540
+
+  Processing data, file "scan119.raw" -->
+   Number of data points            :   667
+   Constant data background         : 0.10
+   detector signal                  : col 10
+   1.crystal angle position         : col  3
+   1.crystal angle calibration      : col 11
+   2.crystal angle position         : col  2
+   2.crystal temperature correction : col 12
+   Monitor                          : col  5
+   Peak position                    : col 10
+   Number of removed noise spikes   :   1
+
+   Fit of the elastic peak -->
+    shape function unprocessed from file
+      peak              :   1.00E+00
+      valid range (meV) :  -9.90 to  9.90
+    fit range (meV) :  -3.03 to  3.03  centered at  0.87
+              Chi^2    peak   FWHM   pos.  %bgr.  asm.
+    start:          3.89E-05  1.51  0.866  3.746  1.00
+    final:     3.39 4.35E-05  1.03  0.669  2.358  1.00
+    errors:    0.45 4.19E-06  0.09  0.038  0.901
+
+  Retraced peak position from file "scan112.raw" -->
+    1.crystal goniometer position       -649.364
+    1.crystal temperature                 25.890
+    2.crystal goniometer position     -15180.263
+    2.crystal temperature                 26.339
+
+  Results of spectra addition -->
+    %imbalance      range (meV)     counts    %drift   file
+    -1.0 +- 0.9    -99.5   99.7   21082  195   0.56   scan112.raw
+     3.1 +- 0.9    -95.1  103.8   19758  195   4.22   scan115.raw
+    -1.2 +- 1.3   -102.0  100.3   11242  106   4.12   scan118.raw
+    -2.4 +- 1.2   -101.8   99.8   12078  123   0.59   scan119.raw
+    -0.2 +- 0.5   -102.2  104.1   63392  588   2.98   Fe_sum.csv
+
+
+  Created files -->
+
+   Protocol of calculations      : Fe_padd_ptl.txt
+   Monitor functions             : Fe_mon.csv
+   Spectra with peaks at E=0     : Fe_shf.csv
+   Sum of spectra w/ peak at E=0 : Fe_sum.csv

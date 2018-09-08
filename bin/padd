@@ -1,0 +1,415 @@
+#!/bin/csh -f
+#
+##############################################################
+#
+#  PHOENIX Version 2.1.4
+#  Copyright (C) 2016 Wolfgang Sturhahn.
+#
+#  This file is part of PHOENIX-2.1.4.
+#
+#  PHOENIX-2.1.4 is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation
+#
+#  PHOENIX-2.1.4 is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-2.1.4.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  purpose :  frontend for PHOENIX executables
+#  author  :  W.Sturhahn
+#  created :  09/07/18
+#
+##############################################################
+#
+#
+#  inihibit core dumps
+
+limit coredumpsize 0
+
+
+#
+#:  settings
+
+set graphics
+set version   = "xphoenix"
+set vistools  = (xmgrace)
+set vispath   = (/usr/bin)
+set visdelay  = 0.5
+set OSTYPE    = Linux
+
+set path = ($path $vispath)
+
+set BASENAME = /usr/bin/basename
+set CAT      = /bin/cat
+set DIRNAME  = /usr/bin/dirname
+set MKDIR    = /bin/mkdir
+set RM       = /bin/rm
+set SED      = /bin/sed
+
+set BC       = /usr/bin/bc
+set GREP     = /bin/egrep
+set MKFIFO   = /usr/bin/mkfifo
+set PS       = /bin/ps
+set SLEEP    = /bin/sleep
+set XWININFO = /usr/bin/xwininfo
+
+set vistools = `echo $vistools | $SED -e 's/:/ /g'`
+
+alias Calculate 'set \!:1 = `echo "scale=3; \!:3-$" | $BC`'
+
+
+#
+#:  name of executable
+
+set executable = `$BASENAME $0`
+set in_file    = 'in_'$executable
+
+
+#
+#:  location of executable
+
+set exe_dir = `$DIRNAME $0`
+
+
+#
+#:  define path
+
+set vpath = ($exe_dir $vispath)
+
+
+#
+#:  directory for temporary files
+
+if($OSTYPE == "Darwin") then
+  set tdir = $HOME/Library/NRIXS/tmp
+else
+  set tdir = $HOME/.NRIXS/tmp
+endif
+
+
+#
+#:  handle options
+
+unset debug
+unset geometry
+unset reqvtool
+unset reuse
+set   exe_options
+foreach option ($argv)
+  switch ($option)
+    case --help:
+      echo "Usage: $executable [OPTION]..."
+      echo "Run PHOENIX executable $executable-$version"
+      echo " "
+      echo "      --geometry=<XxY+U+W> set the window geometry for"
+      echo "                           graphics display."
+      echo "      --help               display this help and exit"
+      echo "      --infile=<file>      use <file> as input file"
+      echo "                           the default input file is $in_file"
+      echo "      --nographics         disable runtime visualization"
+      echo "      --pipe=<fifo>        use <fifo> as output pipe for visualization"
+      echo "      --quiet              suppress most print out"
+      echo "      --reuse              try to re-use graphics display window"
+      echo "      --vdelay=<val>       set visualization startup delay to <val>"
+      echo "      --version            display version number and exit"
+      echo "      --vtool=<exe>        use <exe> for data visualization"
+      echo " "
+      echo "Examples:"
+      echo "  $executable --infile=MyFile  use 'MyFile' as input file."
+      echo "  $executable --vtool=xmgrace  use executable xmgrace for visualization"
+      echo " "
+      exit 0
+    breaksw
+
+    case --debug:
+      set debug
+    breaksw
+
+    case --geometry=*:
+      set geometry  = `echo $option | $SED 's/--geometry=//'`
+    breaksw
+
+    case --infile=*:
+      set in_file = `echo $option | $SED 's/--infile=//'`
+    breaksw
+
+    case --nographics:
+      unset graphics
+      set exe_options = ($exe_options --nograph)
+    breaksw
+
+    case --pipe=*:
+      setenv PHOENIX_PIPE `echo $option | $SED 's/--pipe=//'`
+    breaksw
+
+    case --quiet:
+      set exe_options = ($exe_options --quiet)
+    breaksw
+
+    case --reuse:
+      set reuse
+    breaksw
+
+    case --vdelay=*:
+      set visdelay = `echo $option | $SED 's/--vdelay=//'`
+    breaksw
+
+    case --version:
+      echo "PHOENIX version:"  $version
+      exit 0
+    breaksw
+
+    case --vtool=*:
+      set reqvtool = `echo $option | $SED 's/--vtool=//'`
+    breaksw
+
+    default:
+      echo "${executable}: invalid option -- $option"
+      echo "Try  $executable --help  for more information."
+      exit 1
+    breaksw
+  endsw
+end
+
+
+#
+#: check if any vis. tools are defined
+
+if(! $?reqvtool && "$vistools" == "") then
+  unset graphics
+endif
+
+if($?reqvtool) then
+  set vistools = $reqvtool
+endif
+
+
+#
+#: check if support programs are available
+
+if($BC == ":" || $GREP  == ":" || $MKFIFO  == ":" || $PS == ":" || $SLEEP == ":") then
+  unset graphics
+endif
+
+
+#
+#:  start visualization tool; X system must be active
+
+if($?DISPLAY && $?graphics) then
+
+  unset running
+  foreach vtool ($vistools)
+
+    unset found
+    foreach dir ($vpath)
+      if(-x $dir/$vtool) then
+        set found
+        break
+      endif
+    end
+
+    if($?found) then
+      set glist = `$PS -f -u $USER | $GREP $vtool | $GREP pipe`
+      if("$glist" != "") then
+        set running = $vtool
+        break
+      endif
+    endif
+
+  end
+
+
+#
+#:  use running vis. tool
+
+  if($?running) then
+    switch ($running)
+
+      case *dsp:
+        if(! $?PHOENIX_PIPE) then
+          setenv PHOENIX_PIPE "${tdir}/.ZZ${running}Pipe"
+        endif
+      breaksw
+
+      case *grace:
+        if(! $?PHOENIX_PIPE) then
+          setenv PHOENIX_PIPE "${tdir}/.ZZ${running}Pipe"
+        endif
+      breaksw
+
+      default:
+        echo "don't know how to handle $running"
+      breaksw
+
+    endsw
+  endif
+
+#
+#:  start new vis. tool
+
+  unset vtool_exe
+  if(! $?running) then
+
+    if($?reqvtool) then
+      foreach dir ($vpath)
+        if(-x $dir/$reqvtool) then
+          set vtool_exe = $reqvtool
+          break
+        endif
+      end
+
+    else
+      foreach vtool ($vistools)
+        foreach dir ($vpath)
+          if(-x $dir/$vtool) then
+            set vtool_exe = $vtool
+            break
+          endif
+        end
+        if($?vtool_exe) break
+      end
+    endif
+  endif
+
+  if($?vtool_exe) then
+
+#
+#: check if 'sleep' can do non-integers
+
+    $SLEEP 0.1 >& /dev/null
+    if("$status" != "0") then
+      set new = `echo $visdelay | $SED -e s/'\.'/' '/g`
+      set visdelay = $new[1]
+      @ visdelay++
+    endif
+
+
+#
+#:  determine screen resolution; position/size of calling window
+
+    set xResolution = 1024
+    set yResolution = 768
+    set xSize = 300
+    set xLocation = 500
+    set yLocation = 100
+
+    if($XWININFO != ":") then
+      set Xinfo        = (`$XWININFO -root | $GREP Width:`)
+      set xResolution = $Xinfo[2]
+      set Xinfo        = (`$XWININFO -root | $GREP Height:`)
+      set yResolution = $Xinfo[2]
+
+      if($?WINDOWID) then
+         $XWININFO -id $WINDOWID >& /dev/null
+         if("$status" == "0") then
+           set Xinfo = (`$XWININFO -id $WINDOWID | $GREP Width:`)
+           set xSize = $Xinfo[2]
+           set Xinfo     = (`$XWININFO -id $WINDOWID | $GREP 'Absolute upper-left X'`)
+           set xLocation = $Xinfo[4]
+           set Xinfo     = (`$XWININFO -id $WINDOWID | $GREP 'Absolute upper-left Y'`)
+           set yLocation = $Xinfo[4]
+        endif
+      endif
+    endif
+
+
+#
+#:  determine geometry of graphics window
+
+    Calculate Conversion = $yResolution / 1200
+    Calculate xGeoSize = 600 * $Conversion + 0.5
+    Calculate yGeoSize = 600 * $Conversion + 0.5
+    Calculate xGeoPos  = $xLocation + $xSize + 30 * $Conversion + 0.5
+    set xGeoSize = `echo $xGeoSize | $SED 's/[.][0-9]*//'`
+    set yGeoSize = `echo $yGeoSize | $SED 's/[.][0-9]*//'`
+    set xGeoPos  = `echo $xGeoPos  | $SED 's/[.][0-9]*//'`
+
+    if(! $?geometry) then
+      set geometry = ${xGeoSize}x${yGeoSize}+${xGeoPos}+$yLocation
+    else
+      echo $geometry | $GREP -e '^[0-9][0-9]*x[0-9]+\+[0-9]+\+[0-9]*[0-9]$' >& /dev/null
+      if("$status" == "0") then
+        goto StartTool
+      endif
+
+      echo $geometry | $GREP -e '^[0-9][0-9]*x[0-9]*[0-9]$' >& /dev/null
+      if("$status" == "0") then
+        set geometry = $geometry+${xGeoPos}+$yLocation
+        goto StartTool
+      endif
+
+      echo $geometry | $GREP -e '^[+][0-9]+\+[0-9]*[0-9]$' >& /dev/null
+      if("$status" == "0") then
+        set geometry = ${xGeoSize}x${yGeoSize}$geometry
+        goto StartTool
+      endif
+
+      set geometry = ${xGeoSize}x${yGeoSize}+${xGeoPos}+$yLocation
+    endif
+
+StartTool:
+    if(! -d $tdir) then
+      if(-e $tdir)  $RM -f $tdir
+      $MKDIR -p $tdir
+    endif
+
+    switch ($vtool_exe)
+
+      case *dsp:
+        setenv PHOENIX_PIPE $tdir/.ZZ${vtool_exe}Pipe
+        set dsp_options = "--pipe=$PHOENIX_PIPE --geometry=$geometry"
+        if($?debug)  set dsp_options = "--debug $dsp_options"
+        if($?reuse)  set dsp_options = "--reuse $dsp_options"
+        $exe_dir/$vtool_exe "$dsp_options" &
+        $SLEEP $visdelay
+      breaksw
+
+      case *grace:
+        setenv PHOENIX_PIPE $tdir/.ZZxmgracePipe
+        if(! -e $PHOENIX_PIPE) then
+          $MKFIFO -m 600 $PHOENIX_PIPE
+        endif
+        set currdir = `pwd`
+        $vtool_exe -npipe $PHOENIX_PIPE -free -geometry $geometry -wd $currdir -autoscale none &
+        $SLEEP $visdelay
+      breaksw
+
+      default:
+        echo "don't know how to start $vtool_exe"
+      breaksw
+    endsw
+  endif
+
+  if(! $?running && ! $?vtool_exe) then
+    echo "can't start visualization tool(s):  $vistools"
+    set exe_options = ($exe_options --nograph)
+  endif
+
+else
+  set exe_options = ($exe_options --nograph)
+endif
+
+
+#
+#:  call to PHOENIX-2.1.4 executable;
+#:   pipe name is provided by the PHOENIX_PIPE environment
+
+$exe_dir/$executable-$version --dir=$exe_dir $exe_options $in_file
+
+#
+#:  error exit
+
+set exe_status = $status
+if("$exe_status" != "0") then
+  unsetenv PHOENIX_PIPE
+  exit $exe_status
+endif
+
+unsetenv PHOENIX_PIPE

@@ -1,0 +1,36 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module psth - version @1:
+
+
+  Input parameters -->
+    Nuclear transition energy   :   14.412 keV
+    Recoil energy of free atom  :    1.956 meV
+    Temperature range           :    0.10 -> 2000.00 K
+    Number of temp. points      :  201
+
+  Quantities calculated with the partial DOS -->
+    mean force constant         :  166.4486 +-   0.1073 N/m
+    resilience                  :   33.8653 +-   0.0149 N/m
+    Lamb-Moessbauer temperature : 1379.3892 +-   0.6080 K
+    high T isotope frac. coeff. :    1.4249 +-   0.0009 (300K)^2*perMille/%
+    impact displacement         :    6.6818 +-   0.0249 pm
+
+
+  Created files -->
+   Protocol of calculations      : FeCal_psth_ptl.txt
+   Vibrational entropy           : FeCal_etp.csv
+   Vibrational free energy       : FeCal_fre.csv
+   Vibrational kinetic energy    : FeCal_kin.csv
+   Lamb-Moessbauer factor        : FeCal_flm.csv
+   Vibrational specific heat     : FeCal_cvt.csv
+   Isotopic fractionation        : FeCal_iso.csv
+                                 : FeCal_isf.csv

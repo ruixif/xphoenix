@@ -1,0 +1,49 @@
+## mda2ascii 1.2.1 generated output
+
+
+# MDA File Version = 1.3
+# Scan number = 375
+# Overall scan dimension = 1-D
+# Total requested scan size = 641
+
+
+#  Extra PV: name, descr, values (, unit)
+
+# Extra PV 1: 3idb:userCalc1.CALC, string, "(A-14.4125)*1.E6"
+# Extra PV 2: 3idb:saveData_realTime1D, enum, "Yes"
+# Extra PV 3: 3idb:saveData_scanNumber, long, "376", 
+# Extra PV 4: 3idb:scaler1.TP, , "5", 
+# Extra PV 5: 3idb:saveData_fileSystem, filesystem, "//beams-nfs/export/sector3/s3ida"
+# Extra PV 6: 3idb:scan1.P1SM, scan mode, "LINEAR"
+
+
+# 1-D Scan
+# Points completed = 641 of 641
+# Scanner = 3idb:scan1
+# Scan time = JUN 12, 2007 04:11:40.292265
+
+#  Positioner: name, descr, step mode, unit, rdbk name, rdbk descr, rdbk unit
+#  Detector: name, descr, unit
+
+# Column Descriptions:
+#    1  [     Index      ]
+#    2  [1-D Positioner 1]  3idb:HR3_EAO.VAL, HR Energy, LINEAR, keV, 3idb:HR3_ERdbkAO, HR Energy Readback, keV
+#    3  [1-D Positioner 2]  , , LINEAR, , 3idb:m16.RBV, HRS_RD_Theta, microra
+#    4  [1-D Positioner 3]  , , LINEAR, , 3idb:m22.RBV, HRS_LD_Theta, microra
+#    5  [1-D Detector   1]  3ida:scaler1.T, , 
+#    6  [1-D Detector   2]  3idb:scaler1.T, , 
+#    7  [1-D Detector   3]  3ida:scaler1.S2, , 
+#    8  [1-D Detector   4]  3ida:scaler1.S3, , 
+#    9  [1-D Detector   5]  3idb:scaler1.S5, , 
+#   10  [1-D Detector   6]  3idb:scaler1.S6, , 
+#   11  [1-D Detector   7]  3idb:scaler1.S7, , 
+#   12  [1-D Detector   8]  3idb:scaler1.S8, , 
+#   13  [1-D Detector   9]  3idb:D1Ch5_calc.VAL, Kelvin, 
+#   14  [1-D Detector  10]  3idb:D1Ch6_calc.VAL, Kelvin, 
+#   15  [1-D Detector  11]  3idb:D1Ch7_calc.VAL, Kelvin, 
+#   16  [1-D Detector  12]  3idb:D1Ch8_calc.VAL, Kelvin, 
+#   17  [1-D Detector  13]  3idb:scaler1.S2, , 
+#   18  [1-D Detector  14]  3idb:scaler1_calc4.VAL, , 
+#   19  [1-D Detector  15]  3idb:3:userCalc3.VAL, HHLM E-derivative, 
+
+# 1-D Scan Values

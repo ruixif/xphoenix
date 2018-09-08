@@ -1,0 +1,238 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module padd - version @1:
+
+
+  Input parameters -->
+    Operating energy             :   14.412 keV
+    Temperature of the material  :  300.00 K
+    Energy shift, output data    :    0.00 meV
+    Linear E-scale correction    :    0.00 0.1%
+    Quadratic E-scale correction :    0.00 1E-6/meV
+    Interpolation method         :  quadratic
+
+  Processing data, file "../scan12.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -2.99 to  2.99  centered at -9.91
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.80E-02  1.50 -9.912  0.616  1.35  1.60
+    final:     3.38 4.08E-02  1.10 -9.841  0.850  1.35  1.60
+    errors:    0.40 4.89E-03  0.09  0.056  0.614
+
+  Processing data, file "../scan13.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.67
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.75E-02  1.50 -8.669  1.089  1.35  1.60
+    final:     3.62 4.12E-02  1.09 -8.726  0.773  1.35  1.60
+    errors:    0.42 4.98E-03  0.09  0.055  0.591
+
+  Processing data, file "../scan14.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.94
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.56E-02  1.50 -8.943  0.381  1.35  1.60
+    final:     4.18 3.96E-02  1.13 -9.023  0.651  1.35  1.60
+    errors:    0.45 5.14E-03  0.10  0.062  0.611
+
+  Processing data, file "../scan15.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.43
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.70E-02  1.50 -8.431  0.810  1.35  1.60
+    final:     3.61 3.93E-02  1.11 -8.513  0.791  1.35  1.60
+    errors:    0.41 4.82E-03  0.09  0.057  0.631
+
+  Processing data, file "../scan16.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.99
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.71E-02  1.50 -8.994  0.700  1.35  1.60
+    final:     3.14 4.00E-02  1.07 -9.097  0.861  1.35  1.60
+    errors:    0.39 4.62E-03  0.08  0.052  0.576
+
+  Processing data, file "../scan17.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -9.74
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.77E-02  1.50 -9.744  0.717  1.35  1.60
+    final:     2.89 4.05E-02  1.07 -9.717  0.838  1.35  1.60
+    errors:    0.37 4.54E-03  0.08  0.050  0.551
+
+  Processing data, file "../scan18.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.48
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          4.01E-02  1.50 -8.477  0.811  1.35  1.60
+    final:     3.22 4.13E-02  1.12 -8.613  0.791  1.35  1.60
+    errors:    0.39 4.73E-03  0.09  0.054  0.573
+
+  Processing data, file "../scan19.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -7.48
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.36E-02  1.50 -7.485  0.692  1.35  1.60
+    final:     4.07 3.80E-02  1.11 -7.466  0.709  1.35  1.60
+    errors:    0.44 5.15E-03  0.10  0.063  0.642
+
+  Processing data, file "../scan20.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.01
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.72E-02  1.50 -8.008  0.846  1.35  1.60
+    final:     2.95 3.95E-02  1.12 -8.066  0.949  1.35  1.60
+    errors:    0.37 4.36E-03  0.08  0.052  0.616
+
+  Processing data, file "../scan21.dat" -->
+   Number of data points            :   601
+   Constant data background         : 0.20
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   1.crystal angle calibration      : col 12
+   2.crystal angle position         : col  3
+   2.crystal temperature correction : col 14
+   Monitor                          : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -8.23
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          3.72E-02  1.50 -8.227  0.617  1.35  1.60
+    final:     2.47 3.91E-02  1.11 -8.361  0.663  1.35  1.60
+    errors:    0.34 4.04E-03  0.08  0.047  0.464
+
+  Retraced peak position from file "../scan12.dat" -->
+    1.crystal goniometer position     -10943.842
+    1.crystal temperature                299.400
+    2.crystal goniometer position     -16361.683
+    2.crystal temperature                300.019
+
+  Results of spectra addition -->
+    %imbalance      range (meV)     counts    %drift   file
+    -0.1 +- 2.4    -64.6   84.9    2280   26   0.57   ../scan12.dat
+     2.4 +- 2.4    -65.9   84.0    2395   37   0.93   ../scan13.dat
+     1.3 +- 2.4    -65.7   84.3    2377   30   1.42   ../scan14.dat
+    -3.6 +- 2.3    -66.2   83.8    2511   30   1.23   ../scan15.dat
+     0.4 +- 2.4    -65.7   84.4    2323   39   1.04   ../scan16.dat
+    -0.1 +- 2.4    -65.1   85.0    2326   29   1.03   ../scan17.dat
+     0.3 +- 2.4    -66.2   84.0    2296   33   0.84   ../scan18.dat
+     1.6 +- 2.5    -67.4   82.8    2107   30   1.05   ../scan19.dat
+    -2.4 +- 2.4    -66.8   83.4    2368   28   0.65   ../scan20.dat
+     1.1 +- 2.4    -66.4   83.7    2321   33   0.51   ../scan21.dat
+     0.0 +- 0.8    -67.6   85.1   23478  254   0.97   Fe_NRIXS_sum.dat
+
+
+  Created files -->
+
+   Protocol of calculations      : Fe_NRIXS_padd_ptl.txt
+   Monitor functions             : Fe_NRIXS_mon.dat
+   Spectra with peaks at E=0     : Fe_NRIXS_shf.dat
+   Sum of spectra w/ peak at E=0 : Fe_NRIXS_sum.dat

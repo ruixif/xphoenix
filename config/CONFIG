@@ -1,0 +1,56 @@
+#
+##############################################################
+#
+#  PHOENIX Version xphoenix
+#  Copyright (C) 2016 Wolfgang Sturhahn
+#
+#  This file is part of PHOENIX-xphoenix.
+#
+#  PHOENIX-xphoenix is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  PHOENIX-xphoenix is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-xphoenix.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  purpose :  part of makefiles to create/install binaries
+#  author  :  configure script
+#  created :  Fri Sep  7 22:23:23 EDT 2018
+#
+##############################################################
+#
+
+VERSION = xphoenix
+
+INCLUDE_DIR = /home/ruixif/Desktop/nrvs/xphoenix/src/include
+LIBRARY_DIR = /home/ruixif/Desktop/nrvs/xphoenix/lib
+EXECTBL_DIR = /home/ruixif/Desktop/nrvs/xphoenix/bin
+INSTALL_DIR = /home/ruixif
+SHARE_DIR   = /home/ruixif/share/PHOENIX-xphoenix
+
+CP     = /bin/cp -Rf
+LN     = /bin/ln -sf
+RM     = /bin/rm -f
+MKDIR  = /bin/mkdir -p
+CHMOD  = /bin/chmod
+AR     = /usr/bin/ar
+RANLIB = /usr/bin/ranlib
+
+FC     = /usr/bin/gfortran
+FFLAGS = -DGNUcomp -O -Wall -I$(INCLUDE_DIR)
+
+CC     =
+CFLAGS =
+
+LPATH = ../../lib /lib /usr/lib /usr/local/lib
+LDFLAGS	= 
+LLIBS = phoenix-xphoenix
+LIBS  = $(addprefix -L, $(LPATH)) $(addprefix -l, $(LLIBS))

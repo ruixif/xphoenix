@@ -1,0 +1,21 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module padd - version 2.1.4
+
+
+  Input parameters -->
+    Operating energy             :   14.412 keV
+    Temperature of the material  :  300.00 K
+    Energy shift, output data    :    0.00 meV
+    Linear E-scale correction    :    0.00 0.1%
+    Quadratic E-scale correction :    0.00 1E-6/meV
+    Interpolation method         :  quadratic
+

@@ -1,0 +1,152 @@
+#!/bin/bash -f
+#
+##############################################################
+#
+#  PHOENIX Version 2.1.4
+#  Copyright (C) 2016 Wolfgang Sturhahn.
+#
+#  This file is part of PHOENIX-2.1.4.
+#
+#  PHOENIX-2.1.4 is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  PHOENIX-2.1.4 is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-2.1.4.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################
+#
+#  purpose :  convert APS mda files according to padd AIP protocol
+#              requires awk for speed
+#  author  :  Wolfgang Sturhahn
+#  created :  April 2, 2012
+#
+#  line arguments provided by padd's AIP
+#    #1    :  name of file to be processed
+#    #2    :  name of file to be created
+#    #3    :  scan number
+#    #4..  :  numbers of requested data columns
+#
+#  return expected by padd's AIP
+#    data of file with name <#2>:
+#      - formatted ASCII;
+#      - first line contains list of requested data column numbers,
+#         unavailable columns are replaced with 0;
+#      - following lines contain list of values for
+#         requested data columns;
+#      - use SPACE or TAB to separate values.
+#
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7->
+#
+#: exit conditions
+
+if [ $# -lt 4 ]; then
+  exit 1
+fi
+
+if [ ! -f $1 ]; then
+  exit 2
+fi
+
+
+#
+#: header file name
+
+hdrfile=`basename $1`
+headerfile=${hdrfile%.*}".hdr"
+
+
+#
+#: temporary file name
+
+tmpfile=`basename $2 .dat`.tmp
+if [ -w /local/tmp ]; then
+  tmpfile=/local/tmp/"$tmpfile"
+elif [ -w /tmp ]; then
+  tmpfile=/tmp/"$tmpfile"
+fi
+
+
+#
+#: convert
+
+mda2ascii -o "$tmpfile" "$1"
+
+
+#
+#:  create headerfile
+
+awk '$1 !~ /^[0-9]/ {print $0}' "$tmpfile" > "$headerfile"
+
+
+#
+#:  number of data columns
+
+line=( `tail -n 1 $tmpfile` )
+Ncol=${#line[@]}
+
+
+#
+#: construct first line in outfile
+#: construct list of valid columns
+
+Noline=1
+Nvcols=1
+for col in ${@:4}; do
+  if [[ $col -gt $Ncol ]]; then
+    oline[$Noline]=0
+    (( Noline++ ))
+    continue
+  else
+    oline[$Noline]=$col
+    (( Noline++ ))
+    vcols[$Nvcols]=$col
+    (( Nvcols++ ))
+  fi
+done
+(( Nvcols-- ))
+
+
+#
+#:  create headerfile
+
+awk '$1 !~ /^[0-9]/ {print $0}' "$tmpfile" > "$headerfile"
+
+
+#
+#:  construct command for awk
+
+cmd='$1 ~/^[0-9]/ {print '
+
+i=1
+while [ $i -lt $Nvcols ]; do
+  n=${vcols[$i]}
+  (( n++ ))
+  cmd=$cmd'$'$n','
+  (( i++ ))
+done
+
+n=${vcols[$Nvcols]}
+(( n++ ))
+cmd=$cmd'$'$n'}'
+
+
+#
+#:  create output file
+
+echo ${oline[@]} > "$2"
+echo $cmd | awk -f - "$tmpfile" >> "$2"
+
+
+#
+#:  cleanup
+
+rm -r "$tmpfile"
+exit 0

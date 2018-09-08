@@ -1,0 +1,187 @@
+#!/bin/csh -f
+#
+##############################################################
+#
+#  PHOENIX Version 2.1.4
+#  Copyright (C) 2016 Wolfgang Sturhahn.
+#
+#  This file is part of PHOENIX-2.1.4.
+#
+#  PHOENIX-2.1.4 is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation
+#
+#  PHOENIX-2.1.4 is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-2.1.4.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  purpose :  frontend for PHOENIX visualization tool
+#  author  :  W.Sturhahn
+#  created :  @d:
+#
+##############################################################
+#
+#
+#  inihibit core dumps
+
+limit coredumpsize 0
+
+
+#
+#:  settings
+
+set in_pipe = .defpipe
+set version = "xphoenix"
+
+set BASENAME = @basename:
+set DIRNAME  = @dirname:
+set MKFIFO   = @mkfifo:
+set RM       = @rm:
+set SED      = @sed:
+set XTERM    = @xterm:
+
+onintr Retire
+
+
+#
+#:  name of executable
+
+set executable = `$BASENAME $0`
+
+
+#
+#:  handle options
+
+unset debug
+unset geometry
+unset reuse
+foreach option ($argv)
+  switch ($option)
+    case --help:
+      echo "Usage: $executable [OPTION]..."
+      echo "Run PHOENIX executable $executable-$version"
+      echo "Requires X session."
+      echo ""
+      echo "      --debug              do not open in separate window."
+      echo "      --geometry=<XxY+U+W> set the window geometry for"
+      echo "                           graphics display."
+      echo "      --help               display this help and exit."
+      echo "      --pipe=<fifo>        use <fifo> as pipe to read graphics data"
+      echo "                           the default pipe name is '.defpipe'"
+      echo "      --reuse              try to re-use graphics display."
+      echo "      --version            display version number and exit."
+      echo ""
+      echo "Examples:"
+      echo "  $executable --pipe=MyPipe             use 'MyPipe' as input pipe."
+      echo "  $executable --geometry=400x600+20+10  assume a window size of"
+      echo "                                 horizontal 400 pixels and"
+      echo "                                 vertical 600 pixels; place the"
+      echo "                                 window at 20 px form the left"
+      echo "                                 and 10 px from the top borders."
+      echo ""
+      exit 0
+    breaksw
+
+    case --debug:
+      set debug
+    breaksw
+
+    case --pipe=*:
+      set in_pipe = `echo $option | $SED 's/--pipe=//'`
+    breaksw
+
+    case --geometry=*:
+      set geometry  = `echo $option | $SED 's/--geometry=//'`
+    breaksw
+
+    case --reuse:
+      set reuse
+    breaksw
+
+    case --version:
+      echo "PHOENIX version:"  $version
+      exit 0
+    breaksw
+
+    default:
+      echo "${executable}, invalid option: $option"
+      echo "Try  $executable --help  for more information."
+      exit 1
+    breaksw
+  endsw
+end
+
+#
+#:  there is no point to run this if
+#:      there is no X system active
+
+if(! $?DISPLAY) then
+  echo "X system not running ..."
+  exit 1
+endif
+
+
+#
+#:  create fifo pipe
+
+if(! -e $in_pipe) then
+  $MKFIFO -m 600 $in_pipe
+endif
+
+if(! -e $in_pipe) then
+  echo "cannot create fifo pipe $in_pipe ..."
+  exit 2
+endif
+
+
+#
+#:  determine window geometry
+
+if(! $?geometry) then
+  setenv WINDOW_SIZE_X 400
+  setenv WINDOW_SIZE_Y 600
+  setenv WINDOW_POSITION_X 500
+  setenv WINDOW_POSITION_Y 30
+else
+  set new = `echo $geometry | $SED 's/[x+-]/ /g'`
+  setenv WINDOW_SIZE_X $new[1]
+  setenv WINDOW_SIZE_Y $new[2]
+  setenv WINDOW_POSITION_X $new[3]
+  setenv WINDOW_POSITION_Y $new[4]
+endif
+
+
+#
+#:  location of executable
+
+set exe_dir = `$DIRNAME $0`
+
+
+#
+#:  call to PHOENIX-2.1.4 executable
+
+set command = "$exe_dir/$executable-$version"
+if($?reuse) then
+  set command = "$command --reuse"
+endif
+set command = "$command --dir=$exe_dir $in_pipe"
+
+if($XTERM == ":" || $?debug) then
+  $command
+else
+  $XTERM -T 'PHOENIX Visualization Tool' -geometry 57x10+10+10 -bg \#f7f7f7 -fg black -cr \#d0d0d0 +bc +sb -e $command
+endif
+
+
+#
+#:  clean up
+
+Retire:
+unsetenv WINDOW_SIZE_X WINDOW_SIZE_Y WINDOW_POSITION_X WINDOW_POSITION_Y

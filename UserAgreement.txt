@@ -1,0 +1,21 @@
+
+  ---- User agreement --------------------------------------------
+ |
+ | PHOENIX-2.1.4 is free software: you can redistribute it and/or
+ | modify it under the terms of the GNU General Public License
+ | as published by the Free Software Foundation.
+ |
+ | PHOENIX-2.1.4 is distributed in the hope that it will be useful,
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ |
+ | Any use of results obtained using PHOENIX-2.1.4 in related
+ | or unrelated publications have to be properly acknowledged
+ | by reference to
+ |
+ |  -- the name of the package:    PHOENIX-2.1.4
+ |  -- the name of the developer:  Wolfgang Sturhahn
+ |  -- the NRIXS software site:    http://www.nrixs.com
+ |
+  ----------------------------------------------------------------
+

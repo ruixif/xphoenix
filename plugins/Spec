@@ -1,0 +1,156 @@
+#!/bin/bash -f
+#
+##############################################################
+#
+#  PHOENIX Version @Version:
+#  Copyright (C) @Year: Wolfgang Sturhahn.
+#
+#  This file is part of PHOENIX-@Version:.
+#
+#  PHOENIX-@Version: is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  PHOENIX-@Version: is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-@Version:.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################
+#
+#  purpose :  convert SPEC files according to padd AIP protocol
+#  author  :  Wolfgang Sturhahn
+#  created :  April 2, 2012
+#
+#  line arguments provided by padd's AIP
+#    #1    :  name of file to be processed
+#    #2    :  name of file to be created
+#    #3    :  scan number
+#    #4..  :  numbers of requested data columns
+#
+#  return expected by padd's AIP
+#    data of file with name <#2>:
+#      - formatted ASCII;
+#      - first line contains list of requested data column numbers,
+#         unavailable columns are replaced with 0;
+#      - following lines contain list of values for
+#         requested data columns;
+#      - use SPACE or TAB to separate values.
+#
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7->
+#
+#: exit conditions
+
+if [ $# -lt 4 ]; then
+  exit 1
+fi
+
+if [ ! -f $1 ]; then
+  exit 2
+fi
+
+if [ $3 -eq 0 ]; then
+  exit 3
+fi
+
+
+#
+#: settings
+
+tmpfile=`basename $2 .dat`.tmp
+hdrfile=`basename $1`
+headerfile=${hdrfile%.*}"_$3.hdr"
+rm -f "$tmpfile" "$headerfile"
+
+
+#
+#: search for scan;
+#: extract header to headerfile
+#: extract data to tmpfile
+
+scanid='#S '$3
+found=0
+data=0
+
+while read line; do 
+
+  if [[ "$line" == $scanid* ]]; then
+    found=1
+  fi
+
+  if [ $found -eq 1 ]; then
+    if [[ "$line" == \#* ]] || [ "$line" = "" ]; then
+      if [ $data -eq 1 ]; then
+        break
+      fi
+      echo $line >> $headerfile
+    else
+      data=1
+      echo $line >> $tmpfile
+    fi
+  fi
+
+done < "$1"
+
+
+#
+#:  scan was not found
+
+if [ $found -eq 0 ]; then
+  exit 4
+fi
+
+
+#
+#:  number of columns
+
+line=( `tail -n 1 $tmpfile` )
+Ncol=${#line[@]}
+
+
+#
+#: construct first line in outfile
+#: construct list of valid columns
+
+Noline=1
+Nvcols=1
+for col in ${@:4}; do
+  if [[ $col -gt $Ncol ]]; then
+    oline[$Noline]=0
+    (( Noline++ ))
+    continue
+  else
+    oline[$Noline]=$col
+    (( Noline++ ))
+    vcols[$Nvcols]=$col
+    (( Nvcols++ ))
+  fi
+done
+(( Nvcols-- ))
+
+
+#
+#:  copy requested columns from tmpfile to output file
+
+echo ${oline[@]} > "$2"
+
+while read line; do 
+
+  cols=( 0 $line )
+
+  i=1
+  while [ $i -le $Nvcols ]; do
+    outline[$i]=${cols[${vcols[$i]}]}
+    (( i++ ))
+  done
+  echo "${outline[@]}" >> "$2"
+
+done < "$tmpfile"
+
+rm -r "$tmpfile"
+exit 0

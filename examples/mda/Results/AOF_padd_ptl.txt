@@ -1,0 +1,108 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module padd - version @1:
+
+
+  Input parameters -->
+    Operating energy             :   14.412 keV
+    Temperature of the material  :  300.00 K
+    Energy shift, output data    :    0.00 meV
+    Linear E-scale correction    :    0.00 0.1%
+    Quadratic E-scale correction :    0.00 1E-6/meV
+    Interpolation method         :  quadratic
+
+  Processing data, file "data/3idb_0375.mda" -->
+   Number of data points            :   641
+   Constant data background         : 0.30
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   2.crystal angle position         : col  3
+   Normalization                    : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -0.73
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          5.01E+02  1.50 -0.730  1.583  0.90  1.60
+    final:     1.46 5.44E+02  0.96 -0.568  0.910  0.90  1.60
+    errors:    0.26 5.84E+01  0.07  0.040  0.491
+
+  Processing data, file "data/3idb_0376.mda" -->
+   Number of data points            :   641
+   Constant data background         : 0.30
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   2.crystal angle position         : col  3
+   Normalization                    : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -0.73
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          6.22E+02  1.50 -0.730  0.584  0.90  1.60
+    final:     1.94 6.68E+02  0.94 -0.765  0.517  0.90  1.60
+    errors:    0.30 7.43E+01  0.07  0.040  0.368
+
+  Processing data, file "data/3idb_0377.mda" -->
+   Number of data points            :   641
+   Constant data background         : 0.30
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   2.crystal angle position         : col  3
+   Normalization                    : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -2.23
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          5.88E+02  1.50 -2.230  0.776  0.90  1.60
+    final:     1.42 6.04E+02  0.97 -2.188  0.885  0.90  1.60
+    errors:    0.26 5.89E+01  0.07  0.038  0.457
+
+  Processing data, file "data/3idb_0378.mda" -->
+   Number of data points            :   641
+   Constant data background         : 0.30
+   detector signal                  : col 11
+   1.crystal angle position         : col  2
+   2.crystal angle position         : col  3
+   Normalization                    : col  7
+   Peak position                    : col 11
+
+   Fit of the elastic peak -->
+    shape function internal, exponential type
+    fit range (meV) :  -3.00 to  3.00  centered at -3.73
+              Chi^2    peak   FWHM   pos.  %bgr.  asm. shape
+    start:          4.84E+02  1.50 -3.730  0.679  0.90  1.60
+    final:     1.35 5.04E+02  0.92 -3.640  0.744  0.90  1.60
+    errors:    0.25 5.42E+01  0.07  0.039  0.435
+
+  Retraced peak position from file "data/3idb_0375.mda" -->
+    1.crystal goniometer position       9095.960
+    2.crystal goniometer position     -16131.196
+
+  Results of spectra addition -->
+    %imbalance      range (meV)     counts    %drift   file
+    -5.6 +- 4.8    -79.2   80.8     862   15  11.80   data/3idb_0375.mda
+    -6.4 +- 4.3    -79.0   81.0    1158   13   2.40   data/3idb_0376.mda
+    -3.4 +- 4.2    -77.5   82.5    1138   14   2.56   data/3idb_0377.mda
+     4.0 +- 5.3    -76.1   83.9     728   13   2.58   data/3idb_0378.mda
+    -3.3 +- 2.3    -76.2   80.8    3882   41   6.29   AOF_sum.csv
+
+
+  Created files -->
+
+   Protocol of calculations      : AOF_padd_ptl.txt
+   Normalization functions       : AOF_nrm.csv
+   Spectra with peaks at E=0     : AOF_shf.csv
+   Sum of spectra w/ peak at E=0 : AOF_sum.csv

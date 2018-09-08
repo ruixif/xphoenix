@@ -1,0 +1,48 @@
+
+            #####   ##   ## #####  ###### ##   ## ##    ##   ##
+           ##   ## ##   ## ##   ## ##     ###  ##  ##    ##  ##
+          ##   ##  ##   ## ##   ## ##      ###  ## ##     ####
+         ######   ####### ##   ##  #####   ## # ##  ##     ##
+        ##       ##   ##  ##   ##  ##      ##  ###   ##    ###
+       ##        ##   ##  ##   ##  ##      ##   ##   ##   ## ##
+      ###       ##   ##    #####   ######   ##   ##   ## ##   ###
+
+   PHOnon Excitation by Nuclear resonant Inelastic X-ray scattering
+                  module psth - version @1:
+
+
+  Input parameters -->
+    Nuclear transition energy   :   14.412 keV
+    Recoil energy of free atom  :    1.956 meV
+    Temperature                 : 1000.00 K
+    Energy range in output      : -100.00 to  100.00 meV
+    Number of energy points     : 1001
+
+   Resolution function and elastic peak:
+     Function type               : Gaussian-like
+     Elastic peak strength       :  0.20
+     Full width at half maximum  :  1.00 meV
+     Shape coefficient           :  1.70
+     Left/right asymmetry        :  1.00
+
+  Quantities calculated with the partial DOS -->
+    Lamb-Moessbauer factor      :    0.4825 +-   0.0002
+    kinetic energy              :   43.4543 +-   0.0232 meV/atom
+    mean force constant         :  166.4486 +-   0.1073 N/m
+    specific heat               :    2.9745 +-   0.0016 k_B/atom
+    entropy                     :    6.6607 +-   0.0034 k_B/atom
+    free energy                 : -313.2532 +-   0.1589 meV/atom
+    resilience                  :   33.8653 +-   0.0149 N/m
+    Lamb-Moessbauer temperature : 1379.3892 +-   0.6080 K
+    isotope fractionation       :    0.1280 +-   0.0081 perMille/%
+    high T isotope frac.        :    0.1282 +-   0.0001 perMille/%
+    rms displacement            :   11.6878 +-   0.0026 pm
+    impact displacement         :    6.6818 +-   0.0249 pm
+
+
+  Created files -->
+   Protocol of calculations      : FeCal_psth_ptl.txt
+   Phonon excitation prob. dens. : FeCal_psn.dat
+   n-Phonon excit. prob. dens.   : FeCal_mpc.dat
+   Phonon excit. prob. w/ peak   : FeCal_snp.dat
+   Time-dependent displacement   : FeCal_dyn.dat

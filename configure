@@ -1,0 +1,858 @@
+#!/bin/csh -f
+#
+##############################################################
+#
+#  PHOENIX Version 2.1.4
+#  Copyright (C) 2016 Wolfgang Sturhahn.
+#
+#  This file is part of PHOENIX-2.1.4.
+#
+#  PHOENIX-2.1.4 is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  PHOENIX-2.1.4 is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with PHOENIX-2.1.4.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  purpose :  create makefile to build PHOENIX modules
+#  author  :  W.Sturhahn
+#  created :  August 5, 2009
+#
+##############################################################
+#
+#:  settings
+
+set config_file = config/CONFIG
+set make_file   = Makefile
+set pkg_dir     = `pwd`
+set package     = PHOENIX
+set graphics
+
+
+#
+#:  search path for essential progs
+
+set dlist = (/bin /usr/bin /usr/local/bin /opt/bin /opt/local/bin /opt/X11/bin /usr/X11/bin /usr/ccs/bin /usr/ucb /usr/openwin/bin)
+
+#
+#:  search path for additional libraries
+
+set llist = (/lib /usr/lib /usr/local/lib /opt/local/lib $HOME/lib)
+
+#
+#:  installation location
+
+set install_dir = $HOME
+
+#
+#:  Fortran compiler choices, preference ordered
+
+set flist = (gfortran g95)
+
+#
+#:  list of required source directories
+
+set srclib  = src/Share
+set srcexe  = (src/padd src/phox src/psth src/psvl)
+set srcdsp  = src/pdsp
+set srclist = (config src/include $srcdsp $srcexe $srclib)
+
+#
+#:  list of executables to be built later
+
+set exelist = (padd phox psth psvl)
+set exedsp  = pdsp
+
+#
+#:  list of directories to be placed in share location
+
+set sharelist = (doc etc examples plugins)
+
+#
+#:  list of scripts to be placed with executables
+
+set scriptlist = (mpadd)
+
+#
+#:  ordered list of visualization tools
+
+set vistools = (xmgrace)
+
+#
+#:  locate essential support programs
+
+set cmd
+set bad
+set N
+foreach sprog (cat sed)
+  set list
+  foreach dd ($dlist)
+    if(-d $dd && -x $dd) then
+      set list = ($list $dd/$sprog)
+    endif
+  end
+  set bad = ($bad 1)
+  foreach prog ($list)
+    if( -x $prog ) then
+      @ N = $#bad - 1
+      set bad = ($bad[1-$N] 0)
+      set cmd = ($cmd $prog)
+      break
+    endif
+  end
+end
+
+unset terminate
+foreach sprog (cat sed)
+  if($bad[1] == 1) then
+    set terminate
+    echo "$sprog function found ... no"
+  endif
+  shift bad
+end
+unset bad
+unset N
+
+if($?terminate) goto NothingToDo
+
+
+#
+#:  handle options
+
+unset foption
+unset loption
+unset fortran
+unset static
+foreach option ($argv)
+  switch ($option)
+    case --help:
+      echo "Usage: configure [OPTION]..."
+      echo "Create Makefile(s) for $package installation"
+      echo " "
+      echo "      --foption=<list> colon separated list of compiler options"
+      echo "      --fortran=<exe>  use Fortran compiler <exe>"
+      echo "                       <exe> must exist in search path"
+      echo "      --nographics     no graphics support"
+      echo "      --help           display this help and exit"
+      echo "      --loption=<list> colon separated list of ld options"
+      echo "      --lpath=<list>   prepend directories to library search path"
+      echo "                       <list> is a colon separated list of directories"
+      echo "      --prefix=<dir>   set <dir> as installation location"
+      echo "                       default location is '$install_dir'"
+      echo "      --spath=<path>   prepend directories to search path"
+      echo "                       <list> is a colon separated list of directories"
+      echo "      --static         create statically linked executables"
+      echo " "
+      echo "Examples:"
+      echo '  configure --lpath=$HOME/lib    prepend $HOME/lib to library path'
+      echo "  configure --prefix=/usr/local  install into directory /usr/local"
+      echo " "
+      exit 0
+    breaksw
+
+    case --foption=*:
+      set new = `echo $option | $cmd[2] 's/--foption=//'`
+      set foption = (`echo $new | $cmd[2] -e s/':'/' '/g`)
+    breaksw
+
+    case --fortran=*:
+      set fortran = `echo $option | $cmd[2] 's/--fortran=//'`
+    breaksw
+
+    case --nographics:
+      unset graphics
+    breaksw
+
+    case --loption=*:
+      set new = `echo $option | $cmd[2] 's/--loption=//'`
+      set loption = (`echo $new | $cmd[2] -e s/':'/' '/g`)
+    breaksw
+
+    case --lpath=*:
+      set new = `echo $option | $cmd[2] 's/--lpath=//'`
+      set llist = (`echo $new | $cmd[2] -e s/':'/' '/g` $llist)
+    breaksw
+
+    case --prefix=*:
+      set install_dir = `echo $option | $cmd[2] 's/--prefix=//'`
+    breaksw
+
+    case --spath=*:
+      set new = `echo $option | $cmd[2] 's/--spath=//'`
+      set dlist = (`echo $new | $cmd[2] -e s/':'/' '/g` $dlist)
+    breaksw
+
+    case --static:
+      set static
+    breaksw
+
+    default:
+      echo "configure: invalid option -- $option"
+      echo "Try 'configure --help' for more information."
+      exit 1
+    breaksw
+  endsw
+end
+
+
+#
+#:  user agreement
+
+$cmd[1] UserAgreement.txt
+echo -n "  I expressly agree to these terms (yes) -> "
+
+if("$<" != "yes") then
+  echo ""
+  goto NothingToDo
+endif
+echo ""
+
+
+#
+#  path for executables, libraries; installation directory
+
+set dpath
+foreach dd ($dlist)
+  if(-d $dd && -x $dd) then
+    set dpath = ($dpath $dd)
+  endif
+end
+
+set lpath = ../../lib
+foreach dd ($llist)
+  if(-d $dd && -x $dd) then
+    set lpath = ($lpath $dd)
+  endif
+end
+
+echo "search path:  $dpath"
+echo "library path: $lpath"
+echo "install into: $install_dir"
+echo " "
+
+
+#
+#:  locate essential support programs
+
+echo " "
+unset cmd
+set slist = (cp ln rm mkdir chmod ar ranlib basename cat dirname sed uname tr)
+set cmd
+set bad
+set N
+foreach sprog ($slist)
+  set list
+  foreach dd ($dlist)
+    if(-d $dd && -x $dd) then
+      set list = ($list $dd/$sprog)
+    endif
+  end
+  set bad = ($bad 1)
+  foreach prog ($list)
+    if( -x $prog ) then
+      @ N = $#bad - 1
+      set bad = ($bad[1-$N] 0)
+      set cmd = ($cmd $prog)
+      echo "$sprog function found ... yes"
+      break
+    endif
+  end
+end
+echo " "
+
+unset terminate
+foreach sprog ($slist)
+  if($bad[1] == 1) then
+    set terminate
+    echo "$sprog function found ... no"
+  endif
+  shift bad
+end
+unset bad
+unset N
+
+if($?terminate) goto NothingToDo
+
+
+#
+#:  locate non-essential support programs
+
+set slist = (bc egrep mkfifo ps sleep xterm xwininfo date)
+set cmdne
+foreach sprog ($slist)
+  set list
+  foreach dd ($dlist)
+    if(-d $dd && -x $dd) then
+      set list = ($list $dd/$sprog)
+    endif
+  end
+  unset new
+  foreach prog ($list)
+    if( -x $prog ) then
+      set new = $prog
+      echo "$sprog function found ... yes"
+      break
+    endif
+  end
+  if($?new) then
+    set cmdne = ($cmdne $prog)
+  else
+    set cmdne = ($cmdne :)
+    echo "$sprog function found ... no"
+  endif
+end
+echo " "
+
+
+#
+#:  derive version number
+
+set in_dir  = `$cmd[8] "$pkg_dir"`
+set version = `echo $in_dir | $cmd[11] -e s/"$package"-//g`
+set version = `echo $version | $cmd[11] -e s/"$package"//g`
+if($version == "") set version = unknown
+
+
+#
+#  analyze platform
+
+echo "hostname       'uname -n' = `$cmd[12] -n`"
+echo "machine        'uname -m' = `$cmd[12] -m`"
+echo "kernel name    'uname -s' = `$cmd[12] -s`"
+echo "kernel release 'uname -r' = `$cmd[12] -r`"
+
+set OSTYPE = `$cmd[12] -s`
+
+if($OSTYPE == "Darwin") then
+  echo "Mac OS X version          = `sw_vers -productVersion`"
+else
+  echo "kernel version 'uname -v' = `$cmd[12] -v`"
+endif
+echo " "
+
+
+#
+#:  cleanup
+
+$cmd[3] -f $config_file $make_file
+foreach executable ($exelist $exedsp)
+  $cmd[3] -f $pkg_dir/bin/$executable
+end
+
+
+#
+#:  location tests
+
+foreach srcdir ($srclist)
+  if(! -d $srcdir) then
+    echo "$srcdir/ found ... no"
+    goto NothingToDo
+  else
+    echo "$srcdir/ found ... yes"
+  endif
+end
+echo " "
+
+
+#
+#:  locate a fortran compiler
+
+if(! $?fortran) then
+  set fflist = ($flist)
+else
+  set fflist = $fortran
+endif
+unset fortran
+foreach sprog ($fflist)
+  set list
+  foreach dd ($dpath)
+    set list = ($list $dd/$sprog)
+  end
+  foreach prog ($list)
+    if( -x $prog ) then
+      set fortran = $prog
+      echo "Fortran compiler found ... yes"
+
+      set bfortran = `$cmd[8] $prog`
+      if("$bfortran" == "gfortran") then
+        set fversion = (`$fortran --version | $cmdne[2] -e '[0-9]+[.][0-9]'`)
+        echo "Fortran compiler:  $fortran   version: $fversion[4-]"
+      else
+        echo "Fortran compiler:  $fortran"
+      endif
+      echo " "
+      break
+    endif
+  end
+  if($?fortran) break
+end
+
+if(! $?fortran) then
+  set terminate
+  echo "Fortran compiler found ... no"
+  goto NothingToDo
+endif
+
+
+#
+#:  list of visualization tools that exist in $path
+
+set vistools_x
+foreach vtool ($vistools)
+  foreach dir ($path)
+    if(-x $dir/$vtool) then
+      set vistools_x = ($vistools_x $vtool)
+      break
+    endif
+  end
+end
+
+set vispath
+foreach dir ($dpath)
+  foreach vtool ($vistools)
+    if(-x $dir/$vtool) then
+      set vispath = ($vispath $dir)
+      break
+    endif
+  end
+end
+
+if("$vistools_x" == "") then
+  echo "visualization tools found ... no"
+else
+  echo "visualization tools found ... yes"
+  echo "visualization tools: $vistools_x"
+endif
+echo " "
+
+
+#
+#:  start library list
+
+set spackage = `echo $package | $cmd[13] '[A-Z]' '[a-z]'`
+set libs     = $spackage-$version
+
+
+#
+#:  try to locate graphics libraries
+
+set libgraphics = (g2 gd)
+set Nfound  = 0
+set foptions
+foreach ll ($libgraphics)
+  unset found
+  foreach dd ($lpath)
+    if(-r $dd/lib$ll.a) then
+      set found = $dd
+      @ Nfound++
+      break
+    endif
+  end
+  if($?found) then
+    echo "lib$ll.a found ... yes  (in $found)"
+    set libgraphics_path = "$found"/
+  else
+    echo "lib$ll.a found ... no"
+  endif
+end
+
+if($?graphics) then
+  if($Nfound == $#libgraphics) then
+    set native_graphics
+    set libs2 = ($libgraphics)
+    set srcexe  = ($srcexe $srcdsp)
+    set exelist = ($exelist $exedsp)
+    set vistools_x = (pdsp $vistools_x)
+    echo "native graphics tool supported ... yes"
+  else
+    echo "native graphics tool supported ... no"
+  endif
+  echo " "
+  echo "visualization supported ... yes"
+else
+  set vistools_x = ""
+  echo " "
+  echo "visualization supported ... no"
+endif
+echo " "
+
+
+#
+#:  compiler options
+
+if($?foption) then
+  set foptions = ($foption)
+else
+  set foptions
+endif
+
+
+#
+#:  setup more compilation options if foption undefined
+
+if(! $?foption) then
+  switch( $fortran )
+    case */g77:
+      set foptions = ($foptions -DGNUcomp -O -Wall)
+    breaksw
+
+    case */g95:
+      set foptions = ($foptions -DGNUcomp -O -Wall)
+    breaksw
+
+    case */gfortran:
+      set foptions = ($foptions -DGNUcomp -O -Wall)
+    breaksw
+
+    case */f77:
+
+      switch( $OSTYPE )
+        case Sun*:
+          set foptions = ($foptions -DSUNcomp -Nl50 -fast -native -w)
+        breaksw
+
+        default:
+        breaksw
+      endsw
+
+    breaksw
+
+    default:
+      set foptions = ($foptions -DGNUcomp)
+    breaksw
+  endsw
+endif
+set foptions = ($foptions '-I$(INCLUDE_DIR)')
+
+echo "Fortran options: $foptions"
+
+
+#
+#:  ld options
+
+if($?loption) then
+  set loptions = ($loption)
+else
+  set loptions
+endif
+
+
+#
+#:  setup ld options if loption undefined
+
+if(! $?loption) then
+  switch( $fortran )
+
+    case */gfortran:
+      if($?static) then
+        if($OSTYPE == "Darwin") then
+          set loptions = ($loptions -static-libgfortran -static-libgcc)
+        else
+          set loptions = ($loptions -static)
+        endif
+      endif
+    breaksw
+
+    case */f77:
+
+      switch( $OSTYPE )
+        case Sun*:
+          set loptions = ($loptions -fast -m >.linkmap)
+        breaksw
+
+        default:
+        breaksw
+      endsw
+
+    breaksw
+
+    default:
+    breaksw
+  endsw
+else
+  set loptions = ($loption)
+endif
+
+echo "ld options: $loptions"
+echo " "
+
+
+#
+#:  create CONFIG files
+
+echo "creating $config_file ..."
+$cmd[9] >! $config_file <<EOF
+#
+##############################################################
+#
+#  $package Version $version
+#  Copyright (C) 2016 Wolfgang Sturhahn
+#
+#  This file is part of $package-$version.
+#
+#  $package-$version is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  $package-$version is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with $package-$version.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  purpose :  part of makefiles to create/install binaries
+#  author  :  configure script
+#  created :  `$cmdne[8]`
+#
+##############################################################
+#
+
+VERSION = $version
+
+INCLUDE_DIR = $pkg_dir/src/include
+LIBRARY_DIR = $pkg_dir/lib
+EXECTBL_DIR = $pkg_dir/bin
+INSTALL_DIR = $install_dir
+SHARE_DIR   = $install_dir/share/$package-$version
+
+CP     = $cmd[1] -Rf
+LN     = $cmd[2] -sf
+RM     = $cmd[3] -f
+MKDIR  = $cmd[4] -p
+CHMOD  = $cmd[5]
+AR     = $cmd[6]
+RANLIB = $cmd[7]
+
+FC     = $fortran
+FFLAGS = $foptions
+
+CC     =
+CFLAGS =
+
+LPATH = $lpath
+EOF
+
+if($?native_graphics) then
+  echo "creating ${config_file}gr ..."
+  $cmd[1] -f "$config_file" "$config_file"gr
+endif
+
+echo "LDFLAGS	= $loptions"  >> "$config_file"
+echo "LLIBS = $libs"  >> "$config_file"
+echo 'LIBS  = $(addprefix -L, $(LPATH)) $(addprefix -l, $(LLIBS))' >> "$config_file"
+
+if($?native_graphics) then
+  if($?static) then
+    echo "LSTATIC = libgd.a libg2.a libX11.a libxcb.a libXau.a libXdmcp.a libjpeg.a libpng.a libz.a" >> "$config_file"gr
+    echo LDFLAGS = "$loptions" '$(addprefix' ${libgraphics_path}, '$(LSTATIC))' >> "$config_file"gr
+    echo "LLIBS = $libs"  >> "$config_file"gr
+  else
+    echo "LDFLAGS = $loptions"  >> "$config_file"gr
+    echo "LLIBS = $libs $libs2"  >> "$config_file"gr
+  endif
+  echo 'LIBS  = $(addprefix -L, $(LPATH)) $(addprefix -l, $(LLIBS))' >> "$config_file"gr
+endif
+
+
+#
+#:  create Makefile
+
+echo "creating $make_file ..."
+$cmd[9] >! $make_file <<EOF
+#
+##############################################################
+#
+#  $package Version $version
+#  Copyright (C) 2016 Wolfgang Sturhahn
+#
+#  This file is part of $package-$version.
+#
+#  $package-$version is free software:
+#  You can redistribute it and/or modify it under the terms
+#  of the GNU General Public License as published by the
+#  Free Software Foundation.
+#
+#  $package-$version is distributed in the hope that it will be
+#  useful, but WITHOUT ANY WARRANTY; without even the implied
+#  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE. See the GNU General Public License for details.
+#
+#  A copy of the GNU General Public License should have been
+#  provided along with $package-$version.
+#  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  purpose :  create and install $package programs
+#  author  :  configure script
+#  created :  `$cmdne[8]`
+#
+##############################################################
+#
+
+include config/CONFIG
+
+LIB_DIRS  = $srclib
+EXEC_DIRS = $srcexe
+TO_BE_CLEANED = \$(addsuffix .x, \$(LIB_DIRS) \$(EXEC_DIRS))
+TO_BE_INSTALLED  = $exelist
+TO_BE_INSTALLED2 = $sharelist
+TO_BE_INSTALLED3 = $scriptlist
+TO_BE_UNINSTALLED  = \$(addprefix \$(INSTALL_DIR)/bin/, \$(TO_BE_INSTALLED))
+TO_BE_UNINSTALLED2 = \$(SHARE_DIR)
+TO_BE_UNINSTALLED3 = \$(addprefix \$(INSTALL_DIR)/bin/, \$(TO_BE_INSTALLED3))
+
+
+.PHONY: all clean install uninstall \\
+	\$(LIB_DIRS) \$(EXEC_DIRS) \$(TO_BE_INSTALLED) \$(TO_BE_UNINSTALLED) \
+	\$(TO_BE_INSTALLED2) \$(TO_BE_UNINSTALLED2)    \$(TO_BE_INSTALLED3) \
+	\$(TO_BE_UNINSTALLED3)
+
+
+all: \$(LIB_DIRS) \$(EXEC_DIRS)
+
+\$(LIB_DIRS):
+	\$(MAKE) -C \$@ -f Makefile lib
+
+\$(EXEC_DIRS): \$(LIB_DIRS)
+	\$(MAKE) -C \$@ -f Makefile
+
+
+clean: \$(TO_BE_CLEANED)
+
+\$(TO_BE_CLEANED):
+	\$(MAKE) -C \$(basename \$@) -f Makefile clean
+
+
+install: \$(TO_BE_INSTALLED) \$(TO_BE_INSTALLED2) \$(TO_BE_INSTALLED3)
+
+\$(TO_BE_INSTALLED):
+	@echo "Installing \$@ ..."
+	\$(MKDIR) -m 755 \$(INSTALL_DIR)/bin
+	\$(RM) \$(INSTALL_DIR)/bin/\$@-\$(VERSION) \$(INSTALL_DIR)/bin/\$@
+	\$(CP) \$(EXECTBL_DIR)/\$@-\$(VERSION) \$(EXECTBL_DIR)/\$@ \$(INSTALL_DIR)/bin
+	\$(CHMOD) 755 \$(INSTALL_DIR)/bin/\$@
+
+\$(TO_BE_INSTALLED2):
+	@echo "Installing \$@ ..."
+	\$(MKDIR) -m 755 \$(SHARE_DIR)
+	\$(RM) -r \$(SHARE_DIR)/\$@
+	\$(CP) ./\$@ \$(SHARE_DIR)
+	\$(CHMOD) 755 \$(SHARE_DIR)/\$@
+	@if [ "\$@" == plugins ]; then \$(CHMOD) 755 \$(SHARE_DIR)/\$@/* ; fi
+
+\$(TO_BE_INSTALLED3):
+	@echo "Installing \$@ ..."
+	\$(RM) \$(INSTALL_DIR)/bin/\$@
+	\$(CP) \$(EXECTBL_DIR)/\$@ \$(INSTALL_DIR)/bin
+	\$(CHMOD) 755 \$(INSTALL_DIR)/bin/\$@
+
+
+uninstall: \$(TO_BE_UNINSTALLED) \$(TO_BE_UNINSTALLED2) \$(TO_BE_UNINSTALLED3)
+
+\$(TO_BE_UNINSTALLED):
+	@echo "Uninstalling \$@ ..."
+	\$(RM) \$@-\$(VERSION) \$@
+
+\$(TO_BE_UNINSTALLED2):
+	@echo "Uninstalling \$@ ..."
+	\$(RM) -r \$@
+
+\$(TO_BE_UNINSTALLED3):
+	@echo "Uninstalling \$@ ..."
+	\$(RM) \$@
+
+EOF
+
+
+#
+#:  create frontends for executables
+
+$cmd[4] -p bin lib
+set vistools_x = `echo $vistools_x | $cmd[11] -e 's/ /:/g'`
+set created_on = `$cmdne[8] +%D`
+foreach executy ($exelist)
+  echo "creating frontend for $executy ..."
+  if($executy == $exedsp) then
+    set sedo  = ("-e s|@d:|$created_on|g")
+    set list1 = (@basename: @dirname: @mkfifo: @rm: @sed: @xterm:)
+    set list2 = ($cmd[8] $cmd[10] $cmdne[3] $cmd[3] $cmd[11] $cmdne[6])
+    set N = 0
+    foreach item ($list1)
+      @ N++
+      set sedo = ($sedo "-e s|$item|$list2[$N]|g")
+    end
+    $cmd[11] $sedo < config/Gfrontend > bin/$executy
+  else
+    set sedo  = ("-e s|@V:|$vistools_x|g" "-e s|@P:|$vispath|g" "-e s|@T:|$OSTYPE|g" "-e s|@d:|$created_on|g")
+    set list1 = (@basename: @cat: @dirname: @mkdir: @rm: @sed: @bc: @grep: @mkfifo: @ps: @sleep: @xwininfo: @ostype:)
+    set list2 = ($cmd[8] $cmd[9] $cmd[10] $cmd[4] $cmd[3] $cmd[11] $cmdne[1-5] $cmdne[7] $OSTYPE)
+    set N = 0
+    foreach item ($list1)
+      @ N++
+      set sedo = ($sedo "-e s|$item|$list2[$N]|g")
+    end
+    $cmd[11] $sedo < config/frontend > bin/$executy
+  endif
+  if ($version == "devel") then
+    $cmd[1] bin/$executy bin/"$executy".save
+    $cmd[9] bin/"$executy".save | ./devel/sFilter 2.1.4 2016 PHOENIX >! bin/$executy
+    $cmd[3] -f bin/"$executy".save
+  endif
+  $cmd[5] 755 bin/$executy
+end
+
+foreach scripty ($scriptlist)
+  echo "creating $scripty ..."
+  set sedo  = ("-e s|@date:|$created_on|g")
+  set list1 = (@cat: @dirname: @mkdir: @rm: @sed: @grep:)
+  set list2 = ($cmd[9] $cmd[10] $cmd[4] $cmd[3] $cmd[11] $cmdne[2])
+    set N = 0
+    foreach item ($list1)
+      @ N++
+      set sedo = ($sedo "-e s|$item|$list2[$N]|g")
+    end
+    $cmd[11] $sedo < config/$scripty > bin/$scripty
+  endif
+  if ($version == "devel") then
+    $cmd[1] bin/$scripty bin/"$scripty".save
+    $cmd[9] bin/"$scripty".save | ./devel/sFilter 2.1.4 2016 PHOENIX >! bin/$scripty
+    $cmd[3] -f bin/"$scripty".save
+  endif
+  $cmd[5] 755 bin/$scripty
+end
+
+
+#
+#:  save configure command line
+
+$cmd[9] >! configcmd <<EOF
+#!/bin/csh -f
+#
+#  configure command
+#  created: `$cmdne[8]`
+
+./configure $*
+EOF
+$cmd[5] 755 configcmd
+
+echo "done ..."
+echo ""
+exit 0
+
+NothingToDo:
+echo "terminating ..."
+echo ""
+exit 1
