@@ -1,8 +1,13 @@
-
-
 ##############################################################
+# 
+#  ABSOLUTELY NO WARRANTY!!!
 #
-#  PHOENIX Version 2.1.4
+#  PHOENIX Version "xpheonix"
+#  Added the temperature scan function, please look at the in_phox
+#  in the example folder for detailes.
+#   
+#
+##############################################################
 #  Copyright (C) 2016 Wolfgang Sturhahn
 #
 #  This file is part of PHOENIX-2.1.4.
