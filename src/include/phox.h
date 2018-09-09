@@ -32,7 +32,8 @@
       Character*8   XDATE,XTIME
       Character*20  XVERSION
       Character*72  XMES,XRES,XOUT,XOPT,XMSG,XMSG1,
-     +              XDBG,XDBGSTEP,XDBGEND
+     +              XDBG
+      Real(8)          Iterator,OUTER
 *
       Dimension    DMX(PDATA),DMY(PDATA),DMDY(PDATA),
      +             DSX(PDATA),DSY(PDATA),DSDY(PDATA),
@@ -57,7 +58,8 @@
      +               DENQC,DASM,DPCF,DIFL,DRANGE,DCRNGE,DRNGE0,
      +               DRESCL,DRESCR,DRESMX,DRESBK,DPROC1,DPROC2,
      +               DBETA,DECOIL,DGAMMA,
-     +               DTEMP,DTEMPSTEP,DTEMPEND
+     +               DTEMP,DTEMPSTEP,DTEMPEND,
+     +               DDBGSTEP,DDBGEND
      
 *
       Common/CDECNC/ XMES,XRES,XDBG,XOUT,XOPT,XVERSION,

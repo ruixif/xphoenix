@@ -80,7 +80,7 @@
         DFUDGE = 0.D0
        Endif
        LX = 4
-      ELSE
+      ELSE 
        READ(XP(1),*,ERR=999) DBGRD
        If(XP(2)(1:1).ne.' ') Then
         Read(XP(2),*,ERR=999) DFUDGE

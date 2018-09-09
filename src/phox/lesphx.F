@@ -204,8 +204,8 @@
 *add temp stepsize change here
       Call CREAD(XLINES(13),' ','::','R8',R,DTEMPEND,K,X)
       Call CREAD(XLINES(14),' ','::','R8',R,DTEMPSTEP,K,X)
-      Call CREAD(XLINES(15),' ','::','R8',R,DMES,K,XDBGEND)
-      Call CREAD(XLINES(16),' ','::','R8',R,DDBG,K,XDBGSTEP)
+      Call CREAD(XLINES(15),' ','::','R8',R,DDBGEND,K,X)
+      Call CREAD(XLINES(16),' ','::','R8',R,DDBGSTEP,K,X)
       
 
       Return

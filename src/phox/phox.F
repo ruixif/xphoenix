@@ -39,7 +39,7 @@
 * author  :  Wolfgang Sturhahn                                          
 *                                                                       
 *---+----1----+----2----+----3----+----4----+----5----+----6----+----7->
-*                                                                       
+*                                                                      
 #include<phoenix.h>
 #include<phox.h>
 #include<xterm.h>
@@ -59,6 +59,11 @@
 *:  set error code
 *
       NERR = 0
+*:  SET COUNTERS
+      
+      Iterator=0
+      OUTER=0
+      
 *
 *:  start timer
 *
@@ -73,7 +78,7 @@
 *
 *:  obtain line arguments
 *
-      Call INSOPT(B,BGRAPH,BPRT,X,XFILE)
+ 8888 Call INSOPT(B,BGRAPH,BPRT,X,XFILE)
 *
 *:  date and time
 *
@@ -91,20 +96,28 @@
       Call LESPHX(NERR)
       Call ERRCHK(NERR,*999)
       
-      Write(6, 5000) DTEMPEND, DTEMPSTEP, XMES, XDBG
- 5000 Format('----new parameters-----',F9.3,F9.3,A,A)
+      If ((OUTER.LT.0.01).AND.(ITERATOR.LT.0.01)) Then
+       OUTER=DTEMPEND-DTEMP
+       Iterator=DTEMPSTEP
+      Endif
+      
+      Write(6, 5000) DTEMPEND, DTEMPSTEP, DDBGSTEP, DDBGEND
+ 5000 Format('----new parameters-----',F9.3,F9.3,F9.3,F9.3)
 
 *:  close input file
 *
       Close(LUNINP)
-*
+      DTEMP = DTEMP + Iterator
+
 *:  read data
 *
       Call LESDAT(NERR)
       Call ERRCHK(NERR,*999)
+      
+***********************************start main program      
 *
 *:  linearize x-scale of data
-*
+*    
       Call BINEQ1(DMX,DMY,DSX,DSY,KD,KD,K,1)
       Call BINEQ1(DMX,DMDY,DSX,DSDY,KD,KD,K,5)
       Call DCOPY1(DSX,DMX,KD)
@@ -113,6 +126,7 @@
 *
 *:  subtract background
 *
+      DBGRD = 0.1
       Call BGCORR(NERR)
       Call ERRCHK(NERR,*999)
 *
@@ -491,6 +505,16 @@
 *
       Close(UNIT=LUNPTL)
 *
+*:******************************end  main program
+*: variables: DTEMPEND, DTEMPSTEP, DTEMP, XDBG, DDBGSTEP, DDBGEND
+      Write(6, 9999) ITERATOR,OUTER
+ 9999 Format('---format---',F9.4,F9.4)
+      If (Iterator.LT.OUTER) Then
+       Iterator = Iterator + 1
+       GoTo 8888
+      Endif
+
+
       GoTo 999
 *
 *:  I/O error
